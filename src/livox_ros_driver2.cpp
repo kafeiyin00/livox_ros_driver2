@@ -33,8 +33,28 @@
 #include "driver_node.h"
 #include "lddc.h"
 #include "lds_lidar.h"
+#include "call_back/livox_lidar_callback.h"
+
+#include "std_msgs/String.h"
+
 
 using namespace livox_ros;
+#define BUILDING_ROS1
+
+void GPRMCCallback(const std_msgs::String::ConstPtr& msg)
+{
+  std::cout<<"gprmc_handler:"<<msg->data<<"\n"; 
+  if(gprmc_handler !=-1){
+        // std::cout<<"gprmc_handler:"<<gprmc_handler<<"\n"; 
+    SetLivoxLidarRmcSyncTime(gprmc_handler, msg->data.c_str(), msg->data.length(), [](livox_status status, uint32_t handle, LivoxLidarRmcSyncTimeResponse* data, void* client_data){
+        // std::cout << "Lidar handle:" << handle << " response is: " << +data->ret << std::endl;
+        if(data->ret == 0){
+            ROS_INFO("LIDAR set success");
+        }
+        }, nullptr);
+  }
+}
+
 
 #ifdef BUILDING_ROS1
 int main(int argc, char **argv) {
@@ -107,7 +127,11 @@ int main(int argc, char **argv) {
 
   livox_node.pointclouddata_poll_thread_ = std::make_shared<std::thread>(&DriverNode::PointCloudDataPollThread, &livox_node);
   livox_node.imudata_poll_thread_ = std::make_shared<std::thread>(&DriverNode::ImuDataPollThread, &livox_node);
-  while (ros::ok()) { usleep(10000); }
+
+
+  ros::Subscriber sub = livox_node.subscribe("//core_gprmc", 1000, GPRMCCallback);
+
+  ros::spin();
 
   return 0;
 }

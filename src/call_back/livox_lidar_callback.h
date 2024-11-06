@@ -34,6 +34,8 @@
 
 namespace livox_ros {
 
+  extern uint32_t gprmc_handler;
+
 class LivoxLidarCallback {
  public:
   static void LidarInfoChangeCallback(const uint32_t handle,

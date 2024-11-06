@@ -30,6 +30,8 @@
 
 namespace livox_ros {
 
+  uint32_t gprmc_handler = -1;
+
 void LivoxLidarCallback::LidarInfoChangeCallback(const uint32_t handle,
                                            const LivoxLidarInfo* info,
                                            void* client_data) {
@@ -105,6 +107,9 @@ void LivoxLidarCallback::LidarInfoChangeCallback(const uint32_t handle,
   std::cout << "begin to change work mode to 'Normal', handle: " << handle << std::endl;
   SetLivoxLidarWorkMode(handle, kLivoxLidarNormal, WorkModeChangedCallback, nullptr);
   EnableLivoxLidarImuData(handle, LivoxLidarCallback::EnableLivoxLidarImuDataCallback, lds_lidar);
+
+  // setup the GPRMC, jianping
+  gprmc_handler = handle;
   return;
 }
 

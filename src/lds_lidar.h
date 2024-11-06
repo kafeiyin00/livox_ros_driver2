@@ -53,6 +53,8 @@ class LdsLidar final : public Lds {
   bool Start();
 
   int DeInitLdsLidar(void);
+
+  uint32_t handle_gprmc;
  private:
   LdsLidar(double publish_freq);
   LdsLidar(const LdsLidar &) = delete;
@@ -69,6 +71,10 @@ class LdsLidar final : public Lds {
   void ResetLdsLidar(void);
 
   void SetLidarPubHandle();
+
+  void SetGPRMC(std::string message);
+
+  
 
 	// auto connect mode
 	void EnableAutoConnectMode(void) { auto_connect_mode_ = true; }

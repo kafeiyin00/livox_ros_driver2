@@ -180,6 +180,7 @@ bool LdsLidar::InitLivoxLidar() {
   }
 
   SetLivoxLidarInfoChangeCallback(LivoxLidarCallback::LidarInfoChangeCallback, g_lds_ldiar);
+
   return true;
 }
 
@@ -210,5 +211,30 @@ int LdsLidar::DeInitLdsLidar(void) {
 }
 
 void LdsLidar::PrepareExit(void) { DeInitLdsLidar(); }
+
+
+void LdsLidar::SetGPRMC(std::string message)
+{
+
+  // for (auto& config : user_configs)
+  // {
+  //   uint32_t handle = config.handle;
+  //   char *gprmc_with_checksum = new char[120];
+  //   // generateGPRMC(sys_second, latitude, lat_dir, longitude, lon_dir, speed, course, gprmc_with_checksum);
+  //   // ROS_INFO(gprmc_with_checksum);
+
+  //   SetLivoxLidarRmcSyncTime(0, gprmc_with_checksum, 120, [](livox_status status, uint32_t handle, LivoxLidarRmcSyncTimeResponse* data, void* client_data){
+  //       // std::cout << "Lidar handle:" << handle << " response is: " << +data->ret << std::endl;
+  //       if(data->ret == 0){
+  //           std::cout <<"LIDAR set success";
+  //       }else{
+  //           std::cout <<"LIDAR set fail";
+  //       }
+  //       }, nullptr);
+
+  //   delete []gprmc_with_checksum;
+  // }
+    
+}
 
 }  // namespace livox_ros
