@@ -35,16 +35,16 @@
 #include "lds_lidar.h"
 #include "call_back/livox_lidar_callback.h"
 
+#include "livox_lidar_api.h"
 #include "std_msgs/String.h"
 
 
 using namespace livox_ros;
-#define BUILDING_ROS1
 
 void GPRMCCallback(const std_msgs::String::ConstPtr& msg)
 {
   std::cout<<"gprmc_handler:"<<msg->data<<"\n"; 
-  if(gprmc_handler !=-1){
+  if(gprmc_handler != static_cast<uint32_t>(-1)){
         // std::cout<<"gprmc_handler:"<<gprmc_handler<<"\n"; 
     SetLivoxLidarRmcSyncTime(gprmc_handler, msg->data.c_str(), msg->data.length(), [](livox_status status, uint32_t handle, LivoxLidarRmcSyncTimeResponse* data, void* client_data){
         // std::cout << "Lidar handle:" << handle << " response is: " << +data->ret << std::endl;
